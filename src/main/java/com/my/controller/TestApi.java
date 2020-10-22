@@ -1,7 +1,9 @@
 package com.my.controller;
 
 import com.my.entity.Users;
+import com.my.validat.ValidateUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,22 +34,25 @@ public class TestApi {
 
     /**
      * BindingResult Method validate
+     * 推荐实用
      */
     @RequestMapping("/testBindingResult")
     public String testBindingResult(@RequestBody @Valid Users users, BindingResult bindingResult) {
         StringBuffer sb = new StringBuffer();
         if (bindingResult.hasErrors()) {
-            List<ObjectError> errorList = bindingResult.getAllErrors();
-            for (ObjectError error : errorList) {
-                sb.append(error.getDefaultMessage());
+            bindingResult.getFieldErrors().forEach(item -> {
+                sb.append(item.getField());
+                sb.append(": ");
+                sb.append(item.getDefaultMessage());
                 sb.append(";");
-            }
+            });
         }
         return sb.toString();
     }
 
     /**
      * validation buildDefault
+     * 不会返回，直接报错
      */
     @RequestMapping("/buildDefault")
     public String buildDefault(@RequestBody @Valid Users users) {
