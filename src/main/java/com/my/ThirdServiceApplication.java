@@ -75,7 +75,7 @@ public class ThirdServiceApplication {
         System.out.println(map);
         return "OK";
     }
- 
+
     @PostMapping("/thirdApi1")
     public Map<String, Object>  thirdApi1(@Valid ThirdInfo thirdInfo, BindingResult bindingResult) {
         Map<String, Object> result = new HashMap<>();
@@ -85,7 +85,6 @@ public class ThirdServiceApplication {
             for (FieldError fieldError : fieldErrorList) {
                 sb.append(fieldError.getDefaultMessage() + "  ");
             }
-//            return sb.toString();
             result.put("code", 100);
             result.put("msg", sb.toString());
             return result;
